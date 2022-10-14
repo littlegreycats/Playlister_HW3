@@ -25,23 +25,26 @@ const ListSelector = () => {
                 key={pair._id}
                 idNamePair={pair}
                 selected={false}
+                className="list-card"
             />
         ))
     }
     return (
-        <div id="playlist-selector">
-            <div id="list-selector-list">
-            <div id="playlist-selector-heading">
+        <div id="playlist-selector" className="playlister-selector">
+            <div id = "list-selector-list" style={{padding: "10px"}}>
                 <input
                     type="button"
                     id="add-list-button"
                     onClick={handleCreateNewList}
                     className="playlister-button"
-                    value="+" />
-                Your Lists
-            </div>                {
-                    listCard
-                }
+                    value="+"
+                />
+                <div id="playlist-selector-heading">
+                    Your Playlists
+                </div>
+            </div>
+            <div>
+                {listCard}
             </div>
         </div>)
 }
