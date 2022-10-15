@@ -96,15 +96,10 @@ deletePlaylist = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
-updatePlaylists = async (req, res) => {
-    return res.status(200).json({ success: true });
-}
-
 module.exports = {
     createPlaylist,
     getPlaylists,
     getPlaylistPairs,
     getPlaylistById,
     deletePlaylist,
-    updatePlaylists,
 }

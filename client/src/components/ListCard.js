@@ -98,14 +98,18 @@ function ListCard(props) {
 
     if (editActive) {
         cardElement =
-            <input
-                id={"list-" + idNamePair._id}
-                className='list-card'
-                type='text'
-                onKeyPress={handleKeyPress}
-                onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
-            />;
+            <div className={"list-card unselected-list-card"}>
+                <input
+                    id={"list-" + idNamePair._id}
+                    className='list-card'
+                    type='text'
+                    onKeyPress={handleKeyPress}
+                    onChange={handleUpdateText}
+                    autoFocus
+                    onBlur={handleToggleEdit}
+                    defaultValue={idNamePair.name}
+                />
+            </div>;
     }
     return (
         cardElement

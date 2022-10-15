@@ -136,9 +136,10 @@ export const useGlobalStore = () => {
         async function asyncChangeListName(id) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
-                let playlist = response.data.playist;
+                let playlist = response.data.playlist;
                 playlist.name = newName;
                 async function updateList(playlist) {
+                    console.log(playlist);
                     response = await api.updatePlaylistById(playlist._id, playlist);
                     if (response.data.success) {
                         async function getListPairs(playlist) {
@@ -298,6 +299,11 @@ export const useGlobalStore = () => {
         }
         asyncDeleteList(id);
         store.hideDeleteListModal();
+    }
+
+    // set list to edit mode
+    store.setIsListNameEditActive = function () {
+        console.log("edit active");
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
