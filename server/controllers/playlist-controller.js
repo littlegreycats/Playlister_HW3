@@ -96,7 +96,7 @@ deletePlaylist = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
-updatePlaylist = async (req, res) => {
+updatePlaylists = async (req, res) => {
     return res.status(200).json({ success: true });
 }
 
@@ -106,5 +106,5 @@ module.exports = {
     getPlaylistPairs,
     getPlaylistById,
     deletePlaylist,
-    updatePlaylist,
+    updatePlaylists,
 }
