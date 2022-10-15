@@ -18,6 +18,7 @@ function ListCard(props) {
     function handleLoadList(event) {
         if (!event.target.disabled) {
             let _id = event.target.id;
+            console.log("playlist id: " + _id);
             if (_id.indexOf('list-card-text-') >= 0)
                 _id = ("" + _id).substring("list-card-text-".length);
 
