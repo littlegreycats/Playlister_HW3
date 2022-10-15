@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext/*, useState*/ } from 'react'
 import { GlobalStoreContext } from '../store'
 
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
+    console.log(store);
 
     const { song, index } = props;
     let cardClass = "list-card unselected-list-card";

@@ -13,7 +13,8 @@ const ListSelector = () => {
 
     useEffect(() => {
         store.loadIdNamePairs();
-    }, []);
+        console.log("data changed");
+    }, [store.listMarkedForDeletion]);
 
     function handleCreateNewList() {
         store.createNewList();
