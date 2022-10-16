@@ -28,6 +28,10 @@ const tps = new jsTPS();
 // WITH THIS WE'RE MAKING OUR GLOBAL DATA STORE
 // AVAILABLE TO THE REST OF THE APPLICATION
 export const useGlobalStore = () => {
+    // if the site loads a playlist's page, the current list should be set to
+    // the id present in the url.
+
+
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
         idNamePairs: [],
@@ -139,9 +143,10 @@ export const useGlobalStore = () => {
                 let playlist = response.data.playlist;
                 playlist.name = newName;
                 async function updateList(playlist) {
-                    console.log(playlist);
+                    // console.log(playlist);
                     response = await api.updatePlaylistById(playlist._id, playlist);
                     if (response.data.success) {
+                        console.log("api.updatePlaylistById response success");
                         async function getListPairs(playlist) {
                             response = await api.getPlaylistPairs();
                             if (response.data.success) {
@@ -153,6 +158,7 @@ export const useGlobalStore = () => {
                                         playlist: playlist
                                     }
                                 });
+                                store.history.push("/playlist/" + playlist._id);
                             }
                         }
                         getListPairs(playlist);
