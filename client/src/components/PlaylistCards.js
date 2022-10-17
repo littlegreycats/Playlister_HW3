@@ -48,22 +48,3 @@ function PlaylistCards() {
 }
 
 export default PlaylistCards;
-/*
-<div>
-    <div id="edit-toolbar" className="edit-toolbar">
-        <EditToolbar />
-    </div>
-    <div id="playlist-cards">
-    {
-        store.currentList.songs.map((song, index) => (
-            <SongCard
-                id={'playlist-song-' + (index)}
-                key={'playlist-song-' + (index)}
-                index={index}
-                song={song}
-            />
-        ))
-    }
-    </div>
-</div>
-*/

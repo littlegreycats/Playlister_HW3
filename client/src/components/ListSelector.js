@@ -16,6 +16,10 @@ const ListSelector = () => {
         console.log("data changed");
     }, [store.listMarkedForDeletion]);
 
+    useEffect(() => {
+
+    }, [store.currentList])
+
     function handleCreateNewList() {
         store.createNewList();
     }

@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react'
 import jsTPS from '../common/jsTPS'
-// import MoveSong_Transaction from '../transactions/MoveSong_Transaction.js';
+import MoveSong_Transaction from '../transactions/MoveSong_Transaction.js';
 // import EditSong_Transaction from '../transactions/EditSong_Transaction.js';
 import AddSong_Transaction from '../transactions/AddSong_Transaction';
 // import RemoveSong_Transaction from '../transactions/RemoveSong_Transaction';
@@ -27,7 +27,7 @@ export const GlobalStoreActionType = {
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
-const tps = new jsTPS();
+let tps = new jsTPS();
 
 // WITH THIS WE'RE MAKING OUR GLOBAL DATA STORE
 // AVAILABLE TO THE REST OF THE APPLICATION
@@ -44,8 +44,6 @@ export const useGlobalStore = () => {
         listNameActive: false,
         listMarkedForDeletion: null,
     });
-
-    let tps = new jsTPS();
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
     // HANDLE EVERY TYPE OF STATE CHANGE
@@ -323,7 +321,10 @@ export const useGlobalStore = () => {
         console.log("adding move song transaction")
         let transaction = new AddSong_Transaction(store)
         tps.addTransaction(transaction)
+        console.log(tps)
     }
+
+    // add default song to current playlist
 
     store.addSong = function () {
         console.log("adding song")
@@ -353,6 +354,41 @@ export const useGlobalStore = () => {
             }
         }
         updateList(playlist);
+    }
+
+    // move two songs
+
+    store.moveSong = function (sourceKey, targetKey) {
+        console.log("moveSong(sourceKey: " + sourceKey + ", targetKey: " + targetKey + ")")
+        let playlist = store.currentList
+        let sourceSong = playlist.songs.splice(sourceKey, 1)[0]
+        let targetSong = playlist.songs[targetKey]
+        playlist.songs.splice(targetKey, 0, sourceSong)
+        let response
+        async function updateList(playlist) {
+            response = await api.updatePlaylistById(playlist._id, playlist);
+            if (response.data.success) {
+                console.log("api.updatePlaylistById response success");
+                async function getListPairs(playlist) {
+                    response = await api.getPlaylistPairs();
+                    if (response.data.success) {
+                        storeReducer({
+                            type: GlobalStoreActionType.SET_CURRENT_LIST,
+                            payload: playlist
+                        });
+                    }
+                }
+                getListPairs(playlist);
+            }
+        }
+        updateList(playlist);
+        console.log(playlist.songs)
+        console.log(tps)
+    }
+
+    store.addMoveSongTransaction = function (sourceKey, targetKey) {
+        let transaction = new MoveSong_Transaction(this, sourceKey, targetKey)
+        tps.addTransaction(transaction)
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
