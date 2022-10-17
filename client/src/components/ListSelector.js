@@ -36,7 +36,7 @@ const ListSelector = () => {
                 <div id="playlister-selector-heading" className="playlister-selector-heading">
                     Your Playlists
                 </div>
-                <div style={{padding: "5pt"}}>
+                <div id="playlister-add-button" className="playlist-add-button">
                     <input
                         type="button"
                         id="add-list-button"

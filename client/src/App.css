@@ -62,11 +62,11 @@ body {
   background-color: var(--swatch-primary);
 }
 
-#playlist-selector-north {
-  display: grid;
+.playlist-selector-north {
   grid-column: 1 / 1;
   grid-row: 1 / 2;
   font-size: 36pt;
+  /* padding: 5pt; */
   background-color: var(--swatch-primary);
 }
 
@@ -144,7 +144,7 @@ body {
 #add-list-button {
   grid-column: 1 / 2;
   grid-row: 2 / 2;
-  font-size:36pt;
+  font-size: 36pt;
   border-width: 1px;
   border-color: black;
   border-style: solid;
@@ -153,6 +153,12 @@ body {
   cursor: pointer;
   opacity: 100%;
   float: right;
+}
+
+.playlist-add-button {
+  float: right;
+  display: flex;
+  padding: 5pt;
 }
 
 .playlist-song-selector {

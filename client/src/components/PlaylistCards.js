@@ -25,7 +25,7 @@ function PlaylistCards() {
                     <EditToolbar/>
                 </div>
                 <div id="playlist-cards">
-                {
+                <div>{
                     store.currentList.songs.map((song, index) => (
                         <SongCard
                             id={'playlist-song-' + (index)}
@@ -34,7 +34,7 @@ function PlaylistCards() {
                             song={song}
                         />
                     ))
-                }
+                }</div>
                 </div>
             </div>
         )
