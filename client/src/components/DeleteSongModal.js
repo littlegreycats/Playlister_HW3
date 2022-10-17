@@ -22,7 +22,7 @@ function DeleteSongModal() {
 
     function handleConfirm() {
         console.log("delete song modal confirm");
-        store.store.deleteSongByKey(songKeyPair.key)
+        store.store.addRemoveSongTransaction(songKeyPair.key)
     }
 
     return (

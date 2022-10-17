@@ -3,7 +3,7 @@ import jsTPS from '../common/jsTPS'
 import MoveSong_Transaction from '../transactions/MoveSong_Transaction.js';
 import EditSong_Transaction from '../transactions/EditSong_Transaction.js';
 import AddSong_Transaction from '../transactions/AddSong_Transaction.js';
-// import RemoveSong_Transaction from '../transactions/RemoveSong_Transaction';
+import RemoveSong_Transaction from '../transactions/RemoveSong_Transaction';
 import api, { updatePlaylistById } /* { getPlaylistById } */ from '../api'
 export const GlobalStoreContext = createContext({});
 /*
@@ -581,6 +581,13 @@ export const useGlobalStore = () => {
             }
         }
         updateList(playlist);
+    }
+
+    // add remove song transaction
+    store.addRemoveSongTransaction = function (key) {
+        let transaction = new RemoveSong_Transaction(store, key)
+        tps.addTransaction(transaction)
+        console.log(tps)
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
