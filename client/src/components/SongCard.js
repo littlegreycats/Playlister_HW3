@@ -43,7 +43,7 @@ function SongCard(props) {
         // console.log(`handleDrop ${targetId}`)
         // console.log(`handleDrop ${sourceId}`)
 
-        store.addMoveSongTransaction(sourceId, targetId)
+        if (sourceId !== targetId) store.addMoveSongTransaction(sourceId, targetId)
 
     }
 
