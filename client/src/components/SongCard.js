@@ -1,32 +1,32 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
-    const [ isDragging, setIsDragging ] = useState(false)
-    const [ draggedTo, setDraggedTo ] = useState(false)
+    // const [ isDragging, setIsDragging ] = useState(false)
+    // const [ draggedTo, setDraggedTo ] = useState(false)
 
     const { song, index } = props;
     let cardClass = "list-card unselected-list-card";
 
     function handleDragStart (event) {
         event.dataTransfer.setData("song", event.target.id)
-        setIsDragging(true)
+        // setIsDragging(true)
     }
 
     function handleDragOver (event) {
         event.preventDefault()
-        setDraggedTo(true)
+        // setDraggedTo(true)
     }
 
     function handleDragEnter (event) {
         event.preventDefault()
-        setDraggedTo(true)
+        // setDraggedTo(true)
     }
 
     function handleDragLeave (event) {
         event.preventDefault()
-        setDraggedTo(false)
+        // setDraggedTo(false)
     }
 
     function handleDrop (event) {
@@ -37,8 +37,8 @@ function SongCard(props) {
         let sourceId = event.dataTransfer.getData("song")
         sourceId = sourceId.split('-')[1]
         
-        setDraggedTo(false)
-        setIsDragging(false)
+        // setDraggedTo(false)
+        // setIsDragging(false)
         
         // console.log(`handleDrop ${targetId}`)
         // console.log(`handleDrop ${sourceId}`)
@@ -50,6 +50,7 @@ function SongCard(props) {
     function handleClick (event) {
         if (event.detail === 2) {
             console.log("song card " + index + " double clicked")
+            store.markSongForEditing(index)
         }
     }
 

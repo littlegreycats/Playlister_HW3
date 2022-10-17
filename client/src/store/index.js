@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react'
 import jsTPS from '../common/jsTPS'
 import MoveSong_Transaction from '../transactions/MoveSong_Transaction.js';
-// import EditSong_Transaction from '../transactions/EditSong_Transaction.js';
-import AddSong_Transaction from '../transactions/AddSong_Transaction';
+import EditSong_Transaction from '../transactions/EditSong_Transaction.js';
+import AddSong_Transaction from '../transactions/AddSong_Transaction.js';
 // import RemoveSong_Transaction from '../transactions/RemoveSong_Transaction';
 import api /* { getPlaylistById } */ from '../api'
 export const GlobalStoreContext = createContext({});
@@ -24,6 +24,7 @@ export const GlobalStoreActionType = {
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
     MARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION",
     DELETE_LIST: "DELETE_LIST",
+    MARK_SONG_FOR_EDITING: "MARK_SONG_FOR_EDITING",
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -43,6 +44,7 @@ export const useGlobalStore = () => {
         newListCounter: 0,
         listNameActive: false,
         listMarkedForDeletion: null,
+        songMarkedForEditing: null,
     });
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
@@ -58,6 +60,7 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listMarkedForDeletion: store.listMarkedForDeletion,
+                    songMarkedForEditing: store.songMarkedForEditing,
                 });
             }
             // STOP EDITING THE CURRENT LIST
@@ -68,6 +71,7 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listMarkedForDeletion: store.listMarkedForDeletion,
+                    songMarkedForEditing: store.songMarkedForEditing,
                 })
             }
             // CREATE A NEW LIST
@@ -78,6 +82,7 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter + 1,
                     listNameActive: false,
                     listMarkedForDeletion: store.listMarkedForDeletion,
+                    songMarkedForEditing: store.songMarkedForEditing,
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -88,6 +93,7 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listMarkedForDeletion: store.listMarkedForDeletion,
+                    songMarkedForEditing: store.songMarkedForEditing,
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -98,6 +104,7 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listMarkedForDeletion: payload,
+                    songMarkedForEditing: store.songMarkedForEditing,
                 });
             }
             // UPDATE A LIST
@@ -108,6 +115,7 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listMarkedForDeletion: store.listMarkedForDeletion,
+                    songMarkedForEditing: store.songMarkedForEditing,
                 });
             }
             // START EDITING A LIST NAME
@@ -118,6 +126,7 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     listNameActive: true,
                     listMarkedForDeletion: store.listMarkedForDeletion,
+                    songMarkedForEditing: store.songMarkedForEditing,
                 });
             }
             // DELETE LIST
@@ -128,7 +137,22 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter - 1,
                     listNameActive: false,
                     listMarkedForDeletion: null,
+                    songMarkedForEditing: store.songMarkedForEditing,
                 });
+            }
+            // MARK SONG FOR EDITING
+            case GlobalStoreActionType.MARK_SONG_FOR_EDITING: {
+                return setStore ({
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listMarkedForDeletion: store.listMarkedForDeletion,
+                    songMarkedForEditing: {
+                        song: payload.song,
+                        key: payload.songKey
+                    },
+                })
             }
             default:
                 return store;
@@ -362,11 +386,9 @@ export const useGlobalStore = () => {
         console.log("moveSong(sourceKey: " + sourceKey + ", targetKey: " + targetKey + ")")
         let playlist = store.currentList
         let sourceSong = playlist.songs.splice(sourceKey, 1)[0]
-        let targetSong = playlist.songs[targetKey]
         playlist.songs.splice(targetKey, 0, sourceSong)
-        let response
         async function updateList(playlist) {
-            response = await api.updatePlaylistById(playlist._id, playlist);
+            let response = await api.updatePlaylistById(playlist._id, playlist);
             if (response.data.success) {
                 console.log("api.updatePlaylistById response success");
                 async function getListPairs(playlist) {
@@ -389,6 +411,87 @@ export const useGlobalStore = () => {
     store.addMoveSongTransaction = function (sourceKey, targetKey) {
         let transaction = new MoveSong_Transaction(this, sourceKey, targetKey)
         tps.addTransaction(transaction)
+    }
+
+    store.markSongForEditing = function (songKey) {
+        const id = store.currentList._id
+        // console.log("current list id: " + id)
+        async function asyncMarkSongForEditing (songKey) {
+            let response = await api.getPlaylistById(id)
+            if (response.data.success) {
+                console.log(`markSongForEditing(${songKey})`)
+                const playlist = await response.data.playlist
+                const song = await response.data.playlist.songs[songKey]
+                const payload = {
+                    playlist: playlist,
+                    song: song,
+                    songKey: songKey,
+                }
+                console.log(payload)
+                storeReducer({
+                    type: GlobalStoreActionType.MARK_SONG_FOR_EDITING,
+                    payload: payload
+                })
+                console.log(store.songMarkedForEditing)
+                store.showEditSongModal()
+            } else {
+                console.log("FAILED TO MARK SONG FOR EDITING")
+            }
+        }
+        asyncMarkSongForEditing(songKey)
+    }
+
+    // show edit song modal
+    store.showEditSongModal = function () {
+        console.log('showEditSongModal()')
+        let modal = document.getElementById("edit-song-modal")
+        modal.classList.add('is-visible')
+    }
+
+    // hide edit song modal
+    store.hideEditSongModal = function () {
+        console.log('hideEditSongModal()')
+        let modal = document.getElementById("edit-song-modal")
+        modal.classList.remove('is-visible')
+    }
+
+    store.addEditSongTransaction = function (newSong) {
+        let transaction = new EditSong_Transaction(store, newSong)
+        tps.addTransaction(transaction)
+        console.log(tps)
+    }
+
+    store.editSongMarkedForEditing = function (newSong) {
+        // console.log(newSong)
+        // console.log(store.songMarkedForEditing)
+        // console.log(store.currentList.songs)
+
+        // create new playlist with edited song
+        let playlist = store.currentList
+        // console.log(store.songMarkedForEditing)
+        // console.log(store.songMarkedForEditing.key)
+        playlist.songs[store.songMarkedForEditing.key] = newSong
+
+        // update playlist
+        async function updateList(playlist) {
+            let response = await api.updatePlaylistById(playlist._id, playlist);
+            if (response.data.success) {
+                console.log("api.updatePlaylistById response success");
+                async function getListPairs(playlist) {
+                    response = await api.getPlaylistPairs();
+                    if (response.data.success) {
+                        storeReducer({
+                            type: GlobalStoreActionType.SET_CURRENT_LIST,
+                            payload: playlist
+                        });
+                        store.hideEditSongModal()
+                    }
+                }
+                getListPairs(playlist);
+            }
+        }
+        updateList(playlist);
+
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT

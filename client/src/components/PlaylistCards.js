@@ -12,8 +12,8 @@ import EditToolbar from "./EditToolbar";
 function PlaylistCards() {
     const { store } = useContext(GlobalStoreContext);
     store.history = useHistory();
-    const id = store.history.location.pathname.split('/')[2];
-    console.log("playlist id: " + id);
+    // const id = store.history.location.pathname.split('/')[2];
+    // console.log("playlist id: " + id);
 
     if (store.currentList) {
         return (
