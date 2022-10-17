@@ -31,23 +31,45 @@ const ListSelector = () => {
         ))
     }
     return (
-        <div id="playlist-selector" className="playlister-selector">
-            <div id = "list-selector-list" style={{padding: "10px"}}>
-                <input
-                    type="button"
-                    id="add-list-button"
-                    onClick={handleCreateNewList}
-                    className="playlister-button"
-                    value="+"
-                />
-                <div id="playlist-selector-heading">
+        <div id="playlister-selector" className="playlister-selector">
+            <div id="playlister-selector-north" className="playlist-selector-north">
+                <div id="playlister-selector-heading" className="playlister-selector-heading">
                     Your Playlists
                 </div>
+                <div style={{padding: "5pt"}}>
+                    <input
+                        type="button"
+                        id="add-list-button"
+                        onClick={handleCreateNewList}
+                        className="playlister-selector-button"
+                        value="+"
+                    />
+                </div>
             </div>
-            <div>
-                {listCard}
+            <div id="playlist-cards" className="playlist-cards">
+                <div>{listCard}</div>
             </div>
         </div>)
 }
 
 export default ListSelector;
+
+/*
+<div id="playlist-selector" className="playlister-selector">
+    <div id = "list-selector-list" style={{padding: "10px"}}>
+        <div id="playlist-selector-heading">
+            Your Playlists
+        <input
+            type="button"
+            id="add-list-button"
+            onClick={handleCreateNewList}
+            className="playlister-button"
+            value="+"
+        />
+        </div>
+    </div>
+    <div>
+        {listCard}
+    </div>
+</div>
+*/

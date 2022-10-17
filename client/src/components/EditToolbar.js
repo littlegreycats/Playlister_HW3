@@ -11,7 +11,7 @@ function EditToolbar() {
     const { store } = useContext(GlobalStoreContext);
     const history = useHistory();
 
-    let enabledButtonClass = "playlister-button";
+    let enabledButtonClass = "playlister-song-selector-button";
 
     function handleUndo() {
         store.undo();
@@ -28,7 +28,7 @@ function EditToolbar() {
         editStatus = true;
     }
     return (
-        <span id="edit-toolbar">
+        <span id="edit-toolbar" className="edit-toolbar">
             <input
                 type="button"
                 id='add-song-button'

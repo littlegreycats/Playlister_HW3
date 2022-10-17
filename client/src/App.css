@@ -56,30 +56,52 @@ body {
   border-radius: 10px;
 }
 
-#edit-toolbar {
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;  background-color: var(--swatch-primary);
-  overflow: auto;
-  float:right;
-  display: flex;
-  flex-direction: row;
+#playlister-selector {
+  display: grid;
+  font-size: 36pt;
+  background-color: var(--swatch-primary);
 }
 
-#playlist-selector {
-  grid-column: 1 / 2;
-  grid-row: 3 / 4;
-  /* display: flex; */
+#playlist-selector-north {
+  display: grid;
+  grid-column: 1 / 1;
+  grid-row: 1 / 2;
   font-size: 36pt;
-  flex-direction: column;
-  overflow: scroll;
   background-color: var(--swatch-primary);
+}
+
+
+#playlister-selector-heading {
+  grid-column: 1 / 2;
+  grid-row: 1 / 1;
+  font-size: 36pt;
+  padding: 5pt;
+  flex-direction: row;
+  float: left;
+  display: grid;
+}
+
+#playlist-selector-button {
+  grid-column: 2 / 2;
+  grid-row: 1 / 1;
+  font-size:36pt;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  opacity: 100%;
+  display: grid;
 }
 
 #playlist-cards {
-  grid-column: 1 / 3;
-  grid-row: 2 / 3;
-  display:grid;
-  background-color: var(--swatch-primary);
+  grid-column: 1 / 1;
+  grid-row: 2 / 2;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  background-color: var(--swatch-accent);
 }
 
 .playlister-button, .playlister-button-disabled {
@@ -89,10 +111,11 @@ body {
   border-style: solid;
   /* box-shadow: 2px 4px #888888; */
   border-radius: 5px;
-  float:left;
+  float: right;
   color: black;
   cursor: pointer;
   opacity: 100%;
+  display: grid;
 }
 
 .playlister-button:hover {
@@ -119,7 +142,55 @@ body {
 }
 
 #add-list-button {
-  float:left;
+  grid-column: 1 / 2;
+  grid-row: 2 / 2;
+  font-size:36pt;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  opacity: 100%;
+  float: right;
+}
+
+.playlist-song-selector {
+  display: grid;
+  font-size: 36pt;
+  background-color: var(--swatch-primary);
+}
+
+.playlist-song-selector-north {
+  grid-column: 1 / 1;
+  grid-row: 1 / 2;
+}
+
+.playlister-song-selector-heading {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  float: left;
+  padding: 5pt;
+}
+
+.edit-toolbar {
+  float: right;
+  display: flex;
+  padding: 5pt;
+}
+
+.playlister-song-selector-button {
+  grid-column: 1 / 2;
+  grid-row: 2 / 2;
+  font-size:36pt;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  opacity: 100%;
+  float: right;
 }
 
 .list-card, .selected-list-card, .unselected-list-card {

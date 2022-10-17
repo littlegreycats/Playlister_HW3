@@ -1,4 +1,3 @@
-import EditToolbar from "./EditToolbar";
 /*
     Our Application's Banner, note we are using function-style
     React. Our banner just has a left-aligned heading and a
@@ -6,13 +5,18 @@ import EditToolbar from "./EditToolbar";
     
     @author McKilla Gorilla
 */
-function Banner(props) {
-    return (        
+function Banner() {
+    return (
         <div id="playlister-banner">
             Playlister
-            <EditToolbar />
         </div>
-    );
+    )
 }
 
 export default Banner;
+
+/*
+<div id="playlister-banner">
+Playlister
+<EditToolbar />
+</div> */
