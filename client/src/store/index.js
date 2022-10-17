@@ -1,5 +1,9 @@
 import { createContext, useState } from 'react'
 import jsTPS from '../common/jsTPS'
+// import MoveSong_Transaction from '../transactions/MoveSong_Transaction.js';
+// import EditSong_Transaction from '../transactions/EditSong_Transaction.js';
+import AddSong_Transaction from '../transactions/AddSong_Transaction';
+// import RemoveSong_Transaction from '../transactions/RemoveSong_Transaction';
 import api /* { getPlaylistById } */ from '../api'
 export const GlobalStoreContext = createContext({});
 /*
@@ -40,6 +44,8 @@ export const useGlobalStore = () => {
         listNameActive: false,
         listMarkedForDeletion: null,
     });
+
+    let tps = new jsTPS();
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
     // HANDLE EVERY TYPE OF STATE CHANGE
@@ -310,6 +316,43 @@ export const useGlobalStore = () => {
     // set list to edit mode
     store.setIsListNameEditActive = function () {
         console.log("edit active");
+    }
+
+    // add addSong_Transaction to transaction stack
+    store.addAddSongTransaction = function () {
+        console.log("adding move song transaction")
+        let transaction = new AddSong_Transaction(store)
+        tps.addTransaction(transaction)
+    }
+
+    store.addSong = function () {
+        console.log("adding song")
+        let playlist = store.currentList
+        const song = {
+            title: "Untitled",
+            artist: "Unknown",
+            youTubeId: "dQw4w9WgXcQ"
+        }
+        playlist.songs.push(song)
+        console.log(playlist)
+        let response
+        async function updateList(playlist) {
+            response = await api.updatePlaylistById(playlist._id, playlist);
+            if (response.data.success) {
+                console.log("api.updatePlaylistById response success");
+                async function getListPairs(playlist) {
+                    response = await api.getPlaylistPairs();
+                    if (response.data.success) {
+                        storeReducer({
+                            type: GlobalStoreActionType.SET_CURRENT_LIST,
+                            payload: playlist
+                        });
+                    }
+                }
+                getListPairs(playlist);
+            }
+        }
+        updateList(playlist);
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT

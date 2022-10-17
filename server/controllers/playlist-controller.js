@@ -99,10 +99,13 @@ deletePlaylist = async (req, res) => {
 updatePlaylistById = async (req, res) => {
     const playlist = new Playlist(req.body);
     const id = playlist._id;
-    const name = playlist.name;
-    let oldPlaylist = await Playlist.findOne({ _id: req.params.id });
-    await Playlist.updateOne({ _id: id }, { $set: { name: name } })
-    return res.status(200).json({ success: true, playlist: playlist, old_playlist: oldPlaylist })
+    let oldPlaylist = await Playlist.findOne({ _id: id });
+    await Playlist.updateOne({ _id: id }, playlist, (err) => {
+        if (err) {
+            return res.status(400).json({ success: false, playlist: playlist, oldPlaylist: oldPlaylist })
+        }
+        return res.status(200).json({ success: true, playlist: playlist, old_playlist: oldPlaylist })
+    }).catch(err => console.log(err))
 }
 
 module.exports = {
