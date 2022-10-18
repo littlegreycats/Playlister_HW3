@@ -172,6 +172,7 @@ body {
   font-size: 36pt;
   background-color: var(--swatch-accent);
   border-radius: 10px;
+  grid-template-rows: 14% 90%;
 }
 
 .playlist-song-selector-north {
@@ -260,7 +261,7 @@ body {
 .song-card-button {
   float:right;
   font-size: 30pt;
-  border-radius: 10px;
+  border-radius: 5px;
   border-width: 0pt;
 }
 
@@ -299,10 +300,10 @@ body {
 
 .list-card-button {
   float:right;
-  font-size:22pt;
+  font-size:26pt;
   border-width: 0px;
   width: 100%;
-  border-radius: 10pt;
+  border-radius: 5px;
   display: flex;
 }
 
@@ -311,8 +312,13 @@ body {
 }
 
 input {
-  font-size:36pt;
+  font-size:26pt;
   border-radius:10pt;
+  border-width: 5px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 5pt;
+  /* padding: 10px; */
 }
 
 .disabled {
@@ -476,17 +482,22 @@ label {
 .edit-song-modal-text {
   /* display: inline-block; */
   text-align: left;
-  padding-top: 15pt;
+  /* padding-top: 15pt; */
+  /* padding: 10pt; */
+  /* background-color: var(--swatch-contrast); */
+  border-radius: 5pt;
+  /* height: 60%; */
+  display: inline-block;
 }
 
 .edit-song-modal-input {
   /* position: relative; */
   /* top: 30pt; */
   /* padding: 12pt; */
-  float: right;
-  align-self: center;
+  display: inline-block;
+  /* align-self: center; */
   width: 90%;
-  padding: 10pt;
+  /* padding: 10pt; */
   font-size: 48 pt;
   /* border-radius: 50pt; */
 
@@ -503,6 +514,10 @@ label {
 
 .modal-button {
   font-size: 20pt;
+  border-width: 0px;
+  /* border-color: black; */
+  /* border-style: solid; */
+  border-radius: 5px;
 }
 
 #title-prompt {

@@ -597,6 +597,60 @@ export const useGlobalStore = () => {
         console.log(tps)
     }
 
+    // edit song given key and new song
+    store.editSongByKey = function (key, newSong) {
+        console.log(`editSongByKey(${key}, ${newSong.title})`)
+        const id = store.currentList._id
+        // console.log("current list id: " + id)
+        async function asyncMarkSongForEditing (songKey, newSong) {
+            let response = await api.getPlaylistById(id)
+            if (response.data.success) {
+                console.log(`markSongForEditing(${songKey})`)
+                const playlist = await response.data.playlist
+                const song = await response.data.playlist.songs[songKey]
+                const payload = {
+                    playlist: playlist,
+                    song: song,
+                    songKey: songKey,
+                }
+                console.log(payload)
+                storeReducer({
+                    type: GlobalStoreActionType.MARK_SONG_FOR_EDITING,
+                    payload: payload
+                })
+                console.log(store.songMarkedForEditing)
+                // store.showEditSongModal()
+            } else {
+                console.log("FAILED TO MARK SONG FOR EDITING")
+            }
+        }
+        asyncMarkSongForEditing(key, newSong)
+
+        let playlist = store.currentList
+        // console.log(store.songMarkedForEditing)
+        // console.log(store.songMarkedForEditing.key)
+        playlist.songs[key] = newSong
+
+        // update playlist
+        async function updateList(playlist) {
+            let response = await api.updatePlaylistById(playlist._id, playlist);
+            if (response.data.success) {
+                console.log("api.updatePlaylistById response success");
+                async function getListPairs(playlist) {
+                    response = await api.getPlaylistPairs();
+                    if (response.data.success) {
+                        storeReducer({
+                            type: GlobalStoreActionType.SET_CURRENT_LIST,
+                            payload: playlist
+                        });
+                    }
+                }
+                getListPairs(playlist);
+            }
+        }
+        updateList(playlist);
+    }
+
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
     return { store, storeReducer };
 }

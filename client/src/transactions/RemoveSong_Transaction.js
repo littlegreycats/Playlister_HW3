@@ -3,10 +3,10 @@ export default class RemoveSong_Transaction extends jsTPS_Transaction {
     constructor(store, key) {
         super();
         this.store = store
-        this.key = key
     }
 
     doTransaction() {
+        this.key = this.store.songKeyPairMarkedForDeletion.key
         this.oldSong = {
             title: this.store.songKeyPairMarkedForDeletion.song.title,
             artist: this.store.songKeyPairMarkedForDeletion.song.artist,
@@ -16,8 +16,8 @@ export default class RemoveSong_Transaction extends jsTPS_Transaction {
     }
 
     undoTransaction() {
-        // this.store.addSong();
-        // this.store.moveSong(this.store.currentList.songs.length - 1, this.key)
-        // this.store.editSongMarkedForEditing(this.oldSong);
+        this.store.addSong();
+        this.store.moveSong(this.store.currentList.songs.length - 1, this.key)
+        this.store.editSongByKey(this.key, this.oldSong)
     }
 }
