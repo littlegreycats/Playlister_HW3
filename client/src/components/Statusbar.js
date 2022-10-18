@@ -10,6 +10,7 @@ function Statusbar() {
     let text ="";
     if (store.currentList)
         text = store.currentList.name;
+    // else text = "Playlister"
     return (
         <div id="playlister-statusbar">
             {text}

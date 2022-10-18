@@ -78,6 +78,7 @@ function ListCard(props) {
                 className="list-card-text">
                 {idNamePair.name}
             </span>
+            <div id="button-container">
             <input
                 disabled={cardStatus}
                 type="button"
@@ -86,6 +87,8 @@ function ListCard(props) {
                 value={"\u2715"}
                 onClick={handleDeleteList}
             />
+            </div>
+            <div id="button-container">
             <input
                 disabled={cardStatus}
                 type="button"
@@ -94,6 +97,7 @@ function ListCard(props) {
                 onClick={handleToggleEdit}
                 value={"\u270E"}
             />
+            </div>
         </div>;
 
     if (editActive) {

@@ -40,9 +40,8 @@ function EditSongModal() {
                         Edit Song
                     </div>
                     <div className="modal-center">
-                        <div className="modal-center-content">
-                            <div>
-                                <div id="edit-song-modal-text">
+                        <div className="modal-center-content edit-model-center">
+                                <div id="edit-song-title-text" className='edit-song-modal-text'>
                                     Title:
                                 </div>
                                 <input 
@@ -51,9 +50,7 @@ function EditSongModal() {
                                     defaultValue={song.title}
                                     type="text">
                                 </input>
-                            </div>
-                            <div>
-                                <div id="edit-song-modal-text">
+                                <div id="edit-song-artist-text" className='edit-song-modal-text'>
                                     Artist:
                                 </div>
                                 <input
@@ -62,9 +59,7 @@ function EditSongModal() {
                                     defaultValue={song.artist}
                                     type="text">
                                 </input>
-                            </div>
-                            <div>
-                                <div id="edit-song-modal-text">
+                                <div id="edit-song-id-text" className='edit-song-modal-text'>
                                     Youtube ID:
                                 </div>
                                 <input
@@ -73,7 +68,6 @@ function EditSongModal() {
                                     defaultValue={song.youTubeId}
                                     type="text">
                                 </input>
-                            </div>
                         </div>
                     </div>
                     <div className="modal-south">

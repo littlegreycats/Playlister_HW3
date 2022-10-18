@@ -7,7 +7,7 @@ function SongCard(props) {
     // const [ draggedTo, setDraggedTo ] = useState(false)
 
     const { song, index } = props;
-    let cardClass = "list-card unselected-list-card";
+    let cardClass = "song-card list-card unselected-list-card";
 
     function handleDragStart (event) {
         event.dataTransfer.setData("song", event.target.id)
@@ -74,7 +74,9 @@ function SongCard(props) {
             onClick={handleClick}
             draggable="true"
         >
-            {index + 1}.
+            <div id={`song-number-${index}`} className={'song-number-text'}>
+                {index + 1}.
+            </div>
             <a
                 id={'song-' + index + '-link'}
                 className="song-link"
@@ -84,7 +86,7 @@ function SongCard(props) {
             <input
                 type="button"
                 id={"remove-song-" + index}
-                className="list-card-button"
+                className="song-card-button"
                 value={"\u2715"}
                 onClick={handleDelete}
             />

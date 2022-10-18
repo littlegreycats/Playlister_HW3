@@ -12,5 +12,6 @@ export default class MoveSong_Transaction extends jsTPS_Transaction {
     }
 
     undoTransaction() {
+        this.store.moveSong(this.targetKey, this.sourceKey)
     }
 }
