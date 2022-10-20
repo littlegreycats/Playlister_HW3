@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import SongCard from './SongCard.js'
 import { GlobalStoreContext } from '../store'
 import EditToolbar from "./EditToolbar";
+import { Statusbar } from '../components'
 /*
     This React component lets us edit a loaded list, which only
     happens when we are on the proper route.
@@ -19,7 +20,7 @@ function PlaylistCards() {
         return (
             <div id="playlist-song-selector" className="playlist-song-selector">
                 <div id="playlist-song-selector-north" className="playlist-song-selector-north">
-                    <div id="playlister-song-selector-heading" className="playlister-song-selector-heading">
+                    <div id="playlister-selector-heading" className="playlister-song-selector-heading">
                         Playlist - "{ store.currentList.name }"
                     </div>
                     <EditToolbar/>
@@ -36,6 +37,7 @@ function PlaylistCards() {
                     ))
                 }</div>
                 </div>
+                <Statusbar />
             </div>
         )
     } else {

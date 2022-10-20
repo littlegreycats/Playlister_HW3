@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import ListCard from './ListCard.js'
 import { GlobalStoreContext } from '../store'
+import { Statusbar } from '../components'
 /*
     This React component lists all the playlists in the UI.
     
@@ -41,6 +42,7 @@ const ListSelector = () => {
                     Your Playlists
                 </div>
                 <div id="playlister-add-button" className="playlist-add-button">
+                <div id="button-container">
                     <input
                         type="button"
                         id="add-list-button"
@@ -49,10 +51,12 @@ const ListSelector = () => {
                         value="+"
                     />
                 </div>
+                </div>
             </div>
             <div id="playlist-cards" className="playlist-cards">
                 <div>{listCard}</div>
             </div>
+            <Statusbar />
         </div>)
 }
 
