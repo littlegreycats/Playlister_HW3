@@ -242,6 +242,10 @@ body {
   
 }
 
+.playlister-song-selector-button-disabled:hover {
+  pointer-events: none;
+}
+
 .list-card, .selected-list-card, .unselected-list-card {
   font-size: 32pt;
   margin: 10px;
